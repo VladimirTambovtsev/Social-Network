@@ -1,6 +1,8 @@
-const colors = require('colors');	// dev dependencies
+const colors = require('colors');	// dev dependency
 const express = require('express');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const passport = require('passport');
 
 const users = require('./routes/api/users');
 const profile = require('./routes/api/profile');
@@ -8,12 +10,16 @@ const posts = require('./routes/api/posts');
 
 mongoose.connect('mongodb://localhost/social_network').then(() => console.log('Connected to MongoDB'), err => console.log(`DB Connection Error: ${err}`.red));
 
-
 const app = express();
 
-app.get('/', (req, res) => {
-	res.send('Hello');
-});
+
+// body parser
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// passport
+app.use(passport.initialize());
+require('./config/passport')(passport);
 
 // Routes
 app.use('/api/users', users);
