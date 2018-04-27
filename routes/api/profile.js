@@ -12,10 +12,6 @@ const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 
 
-router.get('/test', (req, res) => {
-	res.json({ msg: 'Profile works' });
-});
-
 
 // @desc Get profile by ID
 // @access Public
@@ -33,7 +29,7 @@ router.get('/handle/:handle', async (req, res) => {
 
 // @desc Get user by ID
 // @access Public
-router.get('user/:user_id', async (req, res) => {
+router.get('/user/:user_id', async (req, res) => {
 	try {
 		const errors = {};
 		const profile = await Profile.findOne({ user: req.params.user_id }).populate('user', ['name', 'avatar']);

@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { registerUser } from '../../actions/authActions';
 
-import classnames from 'classnames';
+import TextFieldGroup from '../common/TextFieldGroup';
 
 class Register extends Component {
 	constructor() {
@@ -57,31 +57,50 @@ class Register extends Component {
 			 				<form noValidate onSubmit={this.onSubmit}>
 			 				  <div className="form-group">
 							    <label htmlFor="exampleInputText1">Your Name</label>
-							    <input 
-							    	className={classnames('form-control', { 'is-invalid': errors.name })} 
-							    	onChange={this.onChange} value={this.state.name} name="name" type="text" id="exampleInputText1" placeholder="Enter Name" />
-							    	{errors.name && (<div className="invalid-feedback">{errors.name}</div>)}
+							    <TextFieldGroup 
+							    	placeholder="Enter Name"
+							    	name="name" type="text" 
+							    	id="exampleInputText1"
+							    	value={this.state.name}
+							    	onChange={this.onChange}
+							    	error={errors.name}
+							    />
 							  </div>
 
 							  <div className="form-group">
 							    <label htmlFor="exampleInputEmail1">Email address</label>
-							    <input className={classnames('form-control', { 'is-invalid': errors.email })} 
-							    	onChange={this.onChange} value={this.state.email} name="email" type="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
-							    {errors.email && (<div className="invalid-feedback">{errors.email}</div>)}
+							     <TextFieldGroup 
+							    	placeholder="Enter email"
+							    	name="email" type="email" 
+							    	id="exampleInputEmail1"
+							    	value={this.state.email}
+							    	onChange={this.onChange}
+							    	error={errors.email}
+							    />
 							  </div>
 							 
 							  <div className="form-group">
 							    <label htmlFor="exampleInputPassword1">Password</label>
-							    <input className={classnames('form-control', { 'is-invalid': errors.password })} 
-							    	onChange={this.onChange} value={this.state.password} name="password" type="password" id="exampleInputPassword1" placeholder="Password" />
-							    {errors.password && (<div className="invalid-feedback">{errors.password}</div>)}
+							    <TextFieldGroup 
+							    	placeholder="Password"
+							    	name="password" type="password" 
+							    	id="exampleInputPassword1"
+							    	value={this.state.password}
+							    	onChange={this.onChange}
+							    	error={errors.password}
+							    />
 							  </div>
 
 							  <div className="form-group">
 							    <label htmlFor="exampleInputPassword2">Repeat your Password</label>
-							    <input className={classnames('form-control', { 'is-invalid': errors.password2 })} 
-							    	onChange={this.onChange} value={this.state.password2} name="password2" type="password" id="exampleInputPassword2" placeholder="Confirm Password" />
-							    {errors.password2 && (<div className="invalid-feedback">{errors.password2}</div>)}
+							    <TextFieldGroup 
+							    	placeholder="Confirm Password"
+							    	name="password2" type="password" 
+							    	id="exampleInputPassword2"
+							    	value={this.state.password2}
+							    	onChange={this.onChange}
+							    	error={errors.password2}
+							    />
 							  </div>
 							  <button type="submit" className="btn btn-primary mt-4">Create an account</button>
 							</form>
