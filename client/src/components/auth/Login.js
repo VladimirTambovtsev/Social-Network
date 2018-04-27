@@ -1,5 +1,10 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { loginUser } from '../../actions/authActions';
+
+import classnames from 'classnames';
+
 
 class Login extends Component {
 	constructor() {
@@ -17,15 +22,28 @@ class Login extends Component {
 	}
 	onSubmit(e) {
 		e.preventDefault();
-		const user = { 
+		const userData = { 
 			email: this.state.email,
 			password: this.state.password, 
 		};
-
-		console.log(user);
+		
+		this.props.loginUser(userData);
+	}
+	componentDidMount() {	// If user log in => go to '/dashboard'
+		if (this.props.auth.isAuthenticated) this.props.history.push('/dashboard');
+	}
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.auth.isAuthenticated) {
+			this.props.history.push('/dashboard');
+		}
+		if (nextProps.errors) {
+			this.setState({errors: nextProps.errors});
+		}
 	}
 
 	render() {
+		const { errors } = this.state;
+
 		return (
 			<div className="login">
 				<div className="container">
@@ -33,16 +51,19 @@ class Login extends Component {
 						<div className="col-md-8 m-auto">
 							<h1 className="text-center display-4">Log in</h1>
 			 				<p className="text-center">We're glad to see you again</p>
-			 				<form onSubmit={this.onSubmit}>
+			 				<form noValidate onSubmit={this.onSubmit}>
 							  <div className="form-group">
 							    <label htmlFor="exampleInputEmail1">Email address</label>
-							    <input onChange={this.onChange} value={this.state.email} name="email" type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
-							    <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+							    <input className={classnames('form-control', { 'is-invalid': errors.email })} 
+							    	onChange={this.onChange} value={this.state.email} name="email" type="email"  id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+							    {errors.email && (<div className="invalid-feedback">{errors.email}</div>)}
 							  </div>
 							 
 							  <div className="form-group">
 							    <label htmlFor="exampleInputPassword1">Password</label>
-							    <input onChange={this.onChange} value={this.state.password} name="password" type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
+							    <input className={classnames('form-control', { 'is-invalid': errors.password })} 
+							    	onChange={this.onChange} value={this.state.password} name="password" type="password" id="exampleInputPassword1" placeholder="Password" />
+							    {errors.password && (<div className="invalid-feedback">{errors.password}</div>)}
 							  </div>
 
 							  <button type="submit" className="btn btn-block btn-primary mt-5">Submit</button>
@@ -55,4 +76,17 @@ class Login extends Component {
 	}
 }
 
-export default Login;
+Login.propTypes = {
+	loginUser: PropTypes.func.isRequired,
+	auth: PropTypes.object.isRequired,
+	errors: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+	auth: state.auth,
+	errors: state.errors
+});
+
+
+export default connect(mapStateToProps, { loginUser })(Login);
+
