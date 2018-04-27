@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "client-install": "npm install --prefix client",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\" "
   },
   "author": "vladimir tambovtsev",
   "license": "ISC",
@@ -23,6 +25,7 @@
   },
   "devDependencies": {
     "colors": "^1.2.1",
+    "concurrently": "^3.5.1",
     "nodemon": "^1.17.3"
   }
 }
