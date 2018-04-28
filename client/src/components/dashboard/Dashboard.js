@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getCurrentProfile } from '../../actions/profileActions';
+import ProfileActions from './ProfileActions';
 
 class Dashboard extends Component {
 	componentDidMount() {
@@ -14,11 +15,16 @@ class Dashboard extends Component {
 
 		let dashboardContent;
 		if (profile === null || loading) {
-			dashboardContent = <div class="loader"></div>
+			dashboardContent = <div className="loader"></div>
 		} else {
 			// if user has profile data
-			if (Object.keys(profile) > 0) {
-				dashboardContent = <h4>PROFILE</h4>
+			if (Object.keys(profile).length > 0) {
+				dashboardContent = (
+					<div>
+						<p className="lead text-muted">Welcome, <Link to={`/profile/${profile.handle}`}>{user.name}</Link></p>
+						<ProfileActions />
+					</div>
+					)
 			} else {
 				dashboardContent = (
 					<div>
