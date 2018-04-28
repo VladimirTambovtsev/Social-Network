@@ -10,6 +10,7 @@ const TextAreaFieldGroup = ({
 	id,
 	error,
 	onChange,
+	info
  }) => {
 	return (
 		<div>
@@ -18,16 +19,18 @@ const TextAreaFieldGroup = ({
 			placeholder={placeholder} name={name} value={value} id={id}
 			onChange={onChange} />
 			{error && (<div className="invalid-feedback">{error}</div>)}
+			<small className="text-muted">{info}</small>
 		</div>
 	);
 };
 
-TextAreaFieldGroup.PropTypes = {
+TextAreaFieldGroup.propTypes = {
 	name: PropTypes.string.isRequired,
 	placeholder: PropTypes.string,
 	value: PropTypes.string.isRequired,
-	id: PropTypes.string.id,
+	id: PropTypes.string,
 	error: PropTypes.string,
+	info: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
 };
 
