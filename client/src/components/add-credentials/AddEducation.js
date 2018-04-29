@@ -65,8 +65,8 @@ class AddEducation extends Component {
 					<div className="row">
 						<div className="col-md-8 m-auto">
 				
-							<h1 className="display-4 text-center">Add Experience</h1>
-							<p className="lead text-center">Add job or position that you have had in the past or current</p>
+							<h1 className="display-4 text-center">Add Education</h1>
+							<p className="lead text-center">Add college that you have had in the past or current</p>
 							<form onSubmit={this.onSubmit} className="mt-5">
 								<div className="form-group">
 									<TextFieldGroup 

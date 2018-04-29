@@ -8971,6 +8971,19 @@ a.text-dark:hover, a.text-dark:focus {
   height: 40px;
 }
 
+.profiles-img {
+  width: 100%;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
+.none-decoration {
+  color: inherit;
+}
+.none-decoration:hover {
+  color: inherit;
+  text-decoration: none;
+}
 
 .loader {
   margin: 0 auto;
