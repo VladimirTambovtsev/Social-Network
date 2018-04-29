@@ -21,11 +21,11 @@ export default function(state = initialState, action) {
 				loading: true
 			}
 		case GET_PROFILE:
-			return {
-				...state,
-				profile: action.payload,
-				loading: false
-			}
+		      return {
+		        ...state,
+		        profile: action.payload,
+		        loading: false
+		      }
 		case CLEAR_CURRENT_PROFILE:
 			return {
 				...state,
