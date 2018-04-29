@@ -92,7 +92,7 @@ router.post('/unlike/:id', passport.authenticate('jwt', { session: false }), asy
 });
 
 
-router.post('/comments/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.post('/comment/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
 	// Check validation
 	const { errors, isValid } = validatePostInput(req.body);
 	if (!isValid) { return res.status(400).json(errors); }
@@ -111,7 +111,7 @@ router.post('/comments/:id', passport.authenticate('jwt', { session: false }), a
 });
 
 
-router.delete('/comments/:id/:comment_id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.delete('/comment/:id/:comment_id', passport.authenticate('jwt', { session: false }), async (req, res) => {
 	
 	const post = await Post.findById(req.params.id);
 	if (post.comments.filter(comment => comment._id.toString() === req.params.comment_id).length === 0) {
