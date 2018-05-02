@@ -4,6 +4,10 @@ const passport = require('passport');
 
 const validatePostInput = require('../../validation/post');
 
+// Check posts in redis
+const cleanCache = require('../../config/cleanCache'); // Clear Cache for 'POST' reqs
+
+
 // Load model
 const Post = require('../../models/Post');
 const Profile = require('../../models/Profile');
@@ -12,8 +16,15 @@ router.get('/test', (req, res) => {
 	res.json({ msg: 'Posts works' });
 });
 
-router.get('/', (req, res) => {
-	Post.find().sort({ date: -1 }).then(posts => res.json(posts)).catch(err => res.status(404).json({ nopostfound: 'No posts found' }));
+router.get('/', async (req, res) => {
+	try {
+		// EXCEPT NEW DATE MUST BE req.user.id or other user's unique value
+		const posts = await Post.find().sort({ date: -1 }).cache({ key: new Date().valueOf().toString() }); // add to cache
+		res.json(posts);
+		
+	} catch (err) {
+		err => res.status(404).json({ nopostfound: 'No posts found' })
+	}
 });
 
 router.get('/:id', (req, res) => {
@@ -21,7 +32,7 @@ router.get('/:id', (req, res) => {
 });
 
 // @access Private
-router.post('/add', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.post('/add', passport.authenticate('jwt', { session: false }), cleanCache, (req, res) => {
 	// Check validation
 	const { errors, isValid } = validatePostInput(req.body);
 	if (!isValid) { return res.status(400).json(errors); }
@@ -33,7 +44,7 @@ router.post('/add', passport.authenticate('jwt', { session: false }), (req, res)
 		user: req.user.id
 	});
 
-	newPost.save().then(post => res.json(post));
+	newPost.save().then(post => res.json(post)).catch(err => res.status(404).json({ nopostfound: 'Cannot add post' }));
 });
 
 // @access Private
